@@ -57,7 +57,7 @@ const run = async () => {
       }
 
       const { email, id } = req.query;
-      welcomeEmailQueue.add(`WelcomeEmail-${id}`, { email });
+      advanceEvents.add(`adavance-events-${id}`, { email });
 
       reply.send({
         ok: true,
