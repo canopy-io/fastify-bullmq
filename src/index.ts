@@ -14,14 +14,18 @@ interface AddJobQueryString {
 
 const run = async () => {
   const advanceEvents = createQueue('advance-events');
+  const referralEvents = createQueue('referral-events');
+  
   await setupQueueProcessor(advanceEvents.name);
+  await setupQueueProcessor(referralEvents.name);
+  
 
   const server: FastifyInstance<Server, IncomingMessage, ServerResponse> =
     fastify();
 
   const serverAdapter = new FastifyAdapter();
   createBullBoard({
-    queues: [new BullMQAdapter(advanceEvents)],
+    queues: [new BullMQAdapter(advanceEvents), new BullMQAdapter(referralEvents)],
     serverAdapter,
   });
   serverAdapter.setBasePath('/');
@@ -55,9 +59,6 @@ const run = async () => {
 
         return;
       }
-
-      const { email, id } = req.query;
-      advanceEvents.add(`adavance-events-${id}`, { email });
 
       reply.send({
         ok: true,
