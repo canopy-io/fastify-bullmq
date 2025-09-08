@@ -16,9 +16,6 @@ const run = async () => {
   const advanceEvents = createQueue('advance-events');
   const referralEvents = createQueue('referral-events');
   
-  await setupQueueProcessor(advanceEvents.name);
-  await setupQueueProcessor(referralEvents.name);
-  
 
   const server: FastifyInstance<Server, IncomingMessage, ServerResponse> =
     fastify();
