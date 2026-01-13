@@ -16,14 +16,21 @@ const run = async () => {
   const advanceEvents = createQueue('advance-events');
   const referralEvents = createQueue('referral-events');
   const doznEvents = createQueue('dozn-events');
-  
+  const mileageEvents = createQueue('mileage');
+  const mileageBalancePointEvents = createQueue('mileage-balance-point');
 
   const server: FastifyInstance<Server, IncomingMessage, ServerResponse> =
     fastify();
 
   const serverAdapter = new FastifyAdapter();
   createBullBoard({
-    queues: [new BullMQAdapter(advanceEvents), new BullMQAdapter(referralEvents), new BullMQAdapter(doznEvents)],
+    queues: [
+              new BullMQAdapter(advanceEvents),
+              new BullMQAdapter(referralEvents),
+              new BullMQAdapter(doznEvents),
+              new BullMQAdapter(mileageEvents),
+              new BullMQAdapter(mileageBalancePointEvents),
+            ],
     serverAdapter,
   });
   serverAdapter.setBasePath('/');
