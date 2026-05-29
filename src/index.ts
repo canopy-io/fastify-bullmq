@@ -5,7 +5,7 @@ import fastify, { FastifyInstance, FastifyRequest } from 'fastify';
 import { Server, IncomingMessage, ServerResponse } from 'http';
 import { env } from './env';
 
-import { createQueue, setupQueueProcessor } from './queue';
+import { createQueue } from './queue';
 
 interface AddJobQueryString {
   id: string;
@@ -25,12 +25,12 @@ const run = async () => {
   const serverAdapter = new FastifyAdapter();
   createBullBoard({
     queues: [
-              new BullMQAdapter(advanceEvents),
-              new BullMQAdapter(referralEvents),
-              new BullMQAdapter(doznEvents),
-              new BullMQAdapter(mileageEvents),
-              new BullMQAdapter(mileageBalancePointEvents),
-            ],
+      new BullMQAdapter(advanceEvents),
+      new BullMQAdapter(referralEvents),
+      new BullMQAdapter(doznEvents),
+      new BullMQAdapter(mileageEvents),
+      new BullMQAdapter(mileageBalancePointEvents),
+    ],
     serverAdapter,
   });
   serverAdapter.setBasePath('/');
